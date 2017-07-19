@@ -15,11 +15,15 @@ import com.au.weatherdata.reader.WeatherDataLineReader;
  * Main class for the weather data generation
  * 
  * This is the entry class for the weather data generator.
+ * Here all the data from the inputData file is read and parsed 
+ * and placed in a HashMap having value as inner HashMap.
+ * Once the data is parsed and created a DataModel, the required 
+ * weather data is generated and written to a output file
  * @author Asif
  */
-public class Main 
+public class WeatherDataGen 
 {
-	private final static Logger LOGGER = Logger.getLogger(Main.class);
+	private final static Logger LOGGER = Logger.getLogger(WeatherDataGen.class);
 	
     public static void main( String[] args )
     {

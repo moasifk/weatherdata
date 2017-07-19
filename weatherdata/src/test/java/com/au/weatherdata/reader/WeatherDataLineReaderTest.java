@@ -27,6 +27,28 @@ public class WeatherDataLineReaderTest {
 		WeatherDataLine dataLineActual = null;
 		
 		// Creation of expected data line.
+		WeatherDataLine dataLineExpected = getExpectedDataLineObject();
+		
+		try {
+			try {
+				dataLineActual = new WeatherDataLineReader(new WeatherDataLineParser(), new File(WeatherDataLineReaderTest.class.getResource("/items.txt").toURI())).readLine();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			assertTrue(dataLineActual.equals(dataLineExpected));
+			LOGGER.info("testReadLine completed.");
+		} catch (IOException e) {
+			LOGGER.error("Error occured while parsing the line."+e.getMessage());
+		}
+	}
+
+	/**
+	 * Expected data line object for the line
+	 * SYD,-33.86,151.21,39,highest,42.1,39.8,33.9,30.0,26.9,25.9,31.3,34.6,38.2,41.8,42.2,45.8
+	 * @return
+	 */
+	public WeatherDataLine getExpectedDataLineObject() {
 		WeatherDataLine dataLineExpected = new WeatherDataLine();
 		String location="SYD";
 		float latitude=Float.valueOf((float) -33.86), longitude=Float.valueOf((float) 151.21);
@@ -51,18 +73,6 @@ public class WeatherDataLineReaderTest {
 		dataLineExpected.setOctVal(octVal);
 		dataLineExpected.setNovVal(novVal);
 		dataLineExpected.setDecVal(decVal);
-		
-		try {
-			try {
-				dataLineActual = new WeatherDataLineReader(new WeatherDataLineParser(), new File(WeatherDataLineReaderTest.class.getResource("/items.txt").toURI())).readLine();
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			assertTrue(dataLineActual.equals(dataLineExpected));
-			LOGGER.info("testReadLine completed.");
-		} catch (IOException e) {
-			LOGGER.error("Error occured while parsing the line."+e.getMessage());
-		}
+		return dataLineExpected;
 	}
 }
