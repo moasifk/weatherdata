@@ -4,28 +4,48 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.au.weatherdata.constants.WeatherDataUnit;
 import com.au.weatherdata.model.WeatherData;
 import com.au.weatherdata.model.WeatherDataAdjacentDetails;
 import com.au.weatherdata.reader.WeatherDataReader;
 
+
+/**
+ * @author Asif
+ *
+ * @param <T>
+ * Class for creating the weather data model from the input file
+ */
 public class WeatherDataModel<T extends WeatherData> {
+	
+	private final static Logger LOGGER = Logger.getLogger(WeatherDataModel.class);
 	
 	Map<String, Map<Integer, Map<WeatherDataUnit, WeatherDataAdjacentDetails>>> weatherModel = new HashMap<>();
 	
 	private final WeatherDataReader<T> reader;
 	
+	/**
+	 * @param reader
+	 */
 	public WeatherDataModel(WeatherDataReader<T> reader) {
 		this.reader = reader;
+		// Loading the weather data
 		loadWeatherData();
 	}
 	
+	/**
+	 * 
+	 */
 	private void loadWeatherData() {
 		
 		T line;
 		while ((line = readNextLine()) != null) {
+			// LocationMap with key as the month number as 1 for Jan, 2 for Feb etc.
+			// Inner map has the key the WeatherDataUnit like Highest/Lowest
+			// WeatherDataAdjacentDetails has weather details for the adjacent months
 			Map<Integer, Map<WeatherDataUnit, WeatherDataAdjacentDetails>> locationMap = null;
-			Map<WeatherDataUnit, WeatherDataAdjacentDetails> featureMap = null; 
 			String key = line.getLocation() + "|" + line.getLatitude() + ","
 					+ line.getLongitude() + "," + line.getElevation();
 			if (!weatherModel.containsKey(key)) {
@@ -140,6 +160,7 @@ public class WeatherDataModel<T extends WeatherData> {
 		try {
 			return reader.readLine();
 		} catch (IOException e) {
+			LOGGER.error("Error while reading the line");
 			throw new RuntimeException("Read line error", e);
 		}
 	}

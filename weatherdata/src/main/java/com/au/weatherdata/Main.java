@@ -1,7 +1,8 @@
 package com.au.weatherdata;
 
 import java.io.File;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.au.weatherdata.driver.WeatherDataModel;
 import com.au.weatherdata.driver.WeatherGenerator;
@@ -10,23 +11,30 @@ import com.au.weatherdata.parser.WeatherDataLineParser;
 import com.au.weatherdata.reader.WeatherDataLineReader;
 
 
+/**
+ * Main class for the weather data generation
+ * 
+ * This is the entry class for the weather data generator.
+ * @author Asif
+ */
 public class Main 
 {
-	private final static Logger LOGGER = Logger.getLogger(Main.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(Main.class);
 	
     public static void main( String[] args )
     {
     	if (args == null | args.length < 4) {
-			LOGGER.severe("parameters are not enough, Main.class required 5 parameters. Two Absolute Paths.\n"
-					+ " One is the file cotains row data that will put in Model, another is the Alerts file.\n"
-					+ " a start date, a duration, and a outputPath.\n"
-					+ "e.g.  java -cp waetherdata.jar Main items.txt 2016-06-20 30 output.txt"
-					);
+			LOGGER.error("Require 4 parameters. \n"
+					+ "startdate duration outputpath");
 			System.exit(1);
 		}
     	try {
+    		// Initializing WeatherDataLineReader with LineParser and input path
     		WeatherDataLineReader dataLineReader = new WeatherDataLineReader(new WeatherDataLineParser(), new File(args[0]));
+    		// Creation of weatherDataModel with the datalineReader. This will create the datamodel 
+    		// with all data from the input file
     		WeatherDataModel<WeatherDataLine> weatherDataModel = new WeatherDataModel<WeatherDataLine>(dataLineReader);
+    		// Initializing the weatherGenerator
     		WeatherGenerator weatherGenerator = new WeatherGenerator(weatherDataModel);
     		String startDate = args[1];
 			int duration = Integer.parseInt(args[2]);

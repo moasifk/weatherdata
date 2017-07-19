@@ -5,35 +5,58 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
+import com.au.weatherdata.model.WeatherDataLine;
 import com.au.weatherdata.parser.LineParser;
 
-public class WeatherDataLineReader<T> implements WeatherDataReader<T> {
+public class WeatherDataLineReader implements WeatherDataReader<WeatherDataLine> {
 
-	private BufferedReader bufferedReader;
-	private final LineParser<T> parser;
+	private final static Logger LOGGER = Logger.getLogger(WeatherDataLineReader.class);
 	
-	public WeatherDataLineReader(LineParser parser, File file) throws IOException{
-		if (file == null)
+	private BufferedReader bufferedReader;
+	private final LineParser<WeatherDataLine> parser;
+	
+	/**
+	 * @param parser Any implementation of Lineparser
+	 * @param file 
+	 * @throws IOException
+	 * WeatherDataLineReader constructor with parser and file arguments.
+	 */
+	public WeatherDataLineReader(LineParser<WeatherDataLine> parser, File file) throws IOException {
+		if (file == null) {
+			LOGGER.error("File is null");
 			throw new NullPointerException("The file can't be null");
-		if (!file.exists())
+		}
+		if (!file.exists()) {
+			LOGGER.error("File doesn't exist: ");
 			throw new IOException("File doesn't exist: "
 					+ file.getAbsolutePath());
-		if (!file.canRead())
+		}
+		if (!file.canRead()) {
+			LOGGER.error("Can't read file. ");
 			throw new IOException("Can't read file: " + file.getAbsolutePath());
+		}
 		this.parser = parser;
 		this.bufferedReader = new BufferedReader(new FileReader(file));
 		
 	}
 	
-	public T readLine() throws IOException {
+	/* 
+	 * An implementation for readLine.
+	 * This method reads the line from the file and parse it to WeatherData object.
+	 */
+	public WeatherDataLine readLine() throws IOException {
 		if (this.bufferedReader == null) {
 			return null;
 		}
 		String line = this.bufferedReader.readLine();
 		while (line != null) {
-			T temp = parser.parseLine(line);
-			if (temp != null)
+			WeatherDataLine temp = parser.parseLine(line);
+			if (temp != null) {
+				LOGGER.info("Line parsed successfully");
 				return temp;
+			}
 			line = this.bufferedReader.readLine();
 		}
 		close();

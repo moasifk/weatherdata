@@ -187,5 +187,81 @@ public class WeatherDataLine implements WeatherData {
 				+ ", julVal=" + julVal + ", augVal=" + augVal + ", sepVal=" + sepVal + ", octVal=" + octVal
 				+ ", novVal=" + novVal + ", decVal=" + decVal + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + aprVal;
+		result = prime * result + augVal;
+		result = prime * result + decVal;
+		result = prime * result + elevation;
+		result = prime * result + febVal;
+		result = prime * result + janVal;
+		result = prime * result + julVal;
+		result = prime * result + junVal;
+		result = prime * result + Float.floatToIntBits(latitude);
+		result = prime * result
+				+ ((location == null) ? 0 : location.hashCode());
+		result = prime * result + Float.floatToIntBits(longitude);
+		result = prime * result + marVal;
+		result = prime * result + mayVal;
+		result = prime * result + novVal;
+		result = prime * result + octVal;
+		result = prime * result + sepVal;
+		result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WeatherDataLine other = (WeatherDataLine) obj;
+		if (aprVal != other.aprVal)
+			return false;
+		if (augVal != other.augVal)
+			return false;
+		if (decVal != other.decVal)
+			return false;
+		if (elevation != other.elevation)
+			return false;
+		if (febVal != other.febVal)
+			return false;
+		if (janVal != other.janVal)
+			return false;
+		if (julVal != other.julVal)
+			return false;
+		if (junVal != other.junVal)
+			return false;
+		if (Float.floatToIntBits(latitude) != Float
+				.floatToIntBits(other.latitude))
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		if (Float.floatToIntBits(longitude) != Float
+				.floatToIntBits(other.longitude))
+			return false;
+		if (marVal != other.marVal)
+			return false;
+		if (mayVal != other.mayVal)
+			return false;
+		if (novVal != other.novVal)
+			return false;
+		if (octVal != other.octVal)
+			return false;
+		if (sepVal != other.sepVal)
+			return false;
+		if (unit != other.unit)
+			return false;
+		return true;
+	}
 	
 }

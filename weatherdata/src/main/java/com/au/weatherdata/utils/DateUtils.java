@@ -4,14 +4,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-/**
- * The <code>DatetimeUtils</code> class represents the all datatime operations  
- * 
- * @author <a href="mailto:jingyuzhang2008@gmail.com">Jingyu ZHANG</a>
- * @version  1.0
- * @since May 2016
- **/
-public class DatetimeUtils {
+
+public class DateUtils {
 
 	private static void setDate(String sDt, DateFormat sdf, Calendar cal) {
 		if (sDt.trim().length()!=0)
@@ -43,6 +37,6 @@ public class DatetimeUtils {
     }  
    
     public static void main (String[] args){
-    	System.out.println(DatetimeUtils.getDateString("2015-10-01"));
+    	System.out.println(DateUtils.getDateString("2015-10-01"));
     }
 }
