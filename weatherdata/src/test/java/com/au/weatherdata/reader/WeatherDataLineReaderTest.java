@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class WeatherDataLineReaderTest {
 	
 	@Test
 	public void testReadLine() {
-		WeatherDataLine dataLineActual;
+		WeatherDataLine dataLineActual = null;
 		
 		// Creation of expected data line.
 		WeatherDataLine dataLineExpected = new WeatherDataLine();
@@ -52,7 +53,12 @@ public class WeatherDataLineReaderTest {
 		dataLineExpected.setDecVal(decVal);
 		
 		try {
-			dataLineActual = new WeatherDataLineReader(new WeatherDataLineParser(), new File("items.txt")).readLine();
+			try {
+				dataLineActual = new WeatherDataLineReader(new WeatherDataLineParser(), new File(WeatherDataLineReaderTest.class.getResource("/items.txt").toURI())).readLine();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			assertTrue(dataLineActual.equals(dataLineExpected));
 			LOGGER.info("testReadLine completed.");
 		} catch (IOException e) {
