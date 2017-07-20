@@ -31,7 +31,7 @@ public class WeatherDataLineReaderTest {
 		
 		try {
 			try {
-				dataLineActual = new WeatherDataLineReader(new WeatherDataLineParser(), new File(WeatherDataLineReaderTest.class.getResource("/items.txt").toURI())).readLine();
+				dataLineActual = new WeatherDataLineReader(new WeatherDataLineParser(), new File(WeatherDataLineReaderTest.class.getResource("/inputData.txt").toURI())).readLine();
 			} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
